@@ -22,7 +22,7 @@ This will launch the included test program
 which adds 5 and 2. The output (you can see it
 after the "[OUT]") should be "0111" (7 in binary)
 To see the assembly code just open the
-test.prg.bin in your favourite text editor.
+test.prg in your favourite text editor.
 This code needs to be compiled before it can be
 used. To compile the code type in a terminal:
 
