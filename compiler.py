@@ -13,7 +13,9 @@ _INSTRUCTION_SET = {
     'LDI' or 'ldi': '0101',
     'JMP' or 'jmp': '0110',
     'OUT' or 'out': '1110',
-    'HLT' or 'hlt': '1111'
+    'HLT' or 'hlt': '1111',
+    'JPC' or 'jpc': '0111',
+    'JPZ' or 'jpz': '1000'
 }
 
 

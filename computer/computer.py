@@ -11,6 +11,8 @@ class Computer(object):
         self._pc = 0
         self._a = '00000000'
         self._b = '00000000'
+        self._carry_flag = 0
+        self._zero_flag = 0
 
         logger.debug('\n--------------- System Information ---------------\n')
         logger.debug('RAM Size : ' + str(self._ram.get_size()) + ' bit')

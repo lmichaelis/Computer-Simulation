@@ -38,6 +38,14 @@ class _ADDInstruction(_Instruction):
 
         if len(x) > 8:
             x = x[len(x) - 8:]
+            computer._carry_flag = 1
+        else:
+            computer._carry_flag = 0
+
+        if x == '0000':
+            computer._zero_flag = 1
+        else:
+            computer._zero_flag = 0
 
         computer._a = x
         computer._pc += 1
@@ -55,6 +63,14 @@ class _SUBInstruction(_Instruction):
 
         if len(x) > 8:
             x = x[len(x) - 8:]
+            computer._carry_flag = 1
+        else:
+            computer._carry_flag = 0
+
+        if x == '0000':
+            computer._zero_flag = 1
+        else:
+            computer._zero_flag = 0
 
         computer._a = x
         computer._pc += 1
@@ -94,6 +110,23 @@ class _OUTInstruction(_Instruction):
     def get_basename(self) -> str:
         return 'OUT'
 
+class _JZInstruction(_Instruction):
+    def process(self, computer):
+        if computer._zero_flag == 1:
+            computer._pc = int(self._args, 2)
+        else:
+            computer._pc += 1
+
+    def get_basename(self):
+        return 'JPZ'
+
+class _JCInstruction(_Instruction):
+    def process(self, computer):
+        pass
+
+    def get_basename(self):
+        return 'JPC'
+
 
 class _HLTInstruction(_Instruction):
     def process(self, computer):
@@ -112,6 +145,10 @@ _INSTRUCTION_SET = {
     '0100': _STAInstruction,
     '0101': _LDIInstruction,
     '0110': _JMPInstruction,
+
+    '0111': _JCInstruction,
+    '1000': _JZInstruction,
+
     '1110': _OUTInstruction,
     '1111': _HLTInstruction
 }
