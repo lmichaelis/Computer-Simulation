@@ -2,10 +2,13 @@
 # Adds 5 and 2 and outputs the result
 #
 
-LDA 14
-ADD 15
 OUT 0
-HLT 0
+ADD 15
+JPC 4
+JMP 0
+SUB 15
+OUT 0
+JPZ 0
+JMP 4
 
-14: 5
-15: 2
+15: 1

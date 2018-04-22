@@ -1,2 +1,3 @@
 def debug(msg: str):
-    print(msg)
+    # print(msg)
+    pass

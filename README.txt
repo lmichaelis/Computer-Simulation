@@ -19,12 +19,13 @@ in the folder of the program. Type in:
 
 -> for linux users the command is python3
 This will launch the included test program
-which adds 5 and 2. The output (you can see it
-after the "[OUT]") should be "0111" (7 in binary)
-To see the assembly code just open the
-test.prg in your favourite text editor.
-This code needs to be compiled before it can be
-used. To compile the code type in a terminal:
+which counts up until it reaches 256, then
+it counts down until it reaches 0 land does
+this in a loop. To see the assembly code just
+open the test.prg in your favourite text
+editor. This code needs to be compiled before
+it can be used. To compile the code type in
+a terminal:
 
     python[3] compiler.py test.prg
 
@@ -63,6 +64,11 @@ SUB      | 0011 xxxx | Subtract a value from RAM from the value in the A registe
 STA      | 0100 xxxx | Store the value in the A register into RAM (Store A)          | Required (memory location)
 LDI      | 0101 xxxx | Load a immediately using the argument (Load immediately)      | Required (number to load)
 JMP      | 0110 xxxx | Jump to a specified 'line' in code (!Lines start at 0) (Jump) | Required (line number)
+JPC      | 0111 xxxx | Jump to a specified 'line' in code (!Lines start at 0) if the | Required (line number)
+         |           | result of the previous operation was less than 0 or more than |
+         |           | 255 (Jump Carry)                                              |
+JPZ      | 1000 xxxx | Jump to a specified 'line' in code (!Lines start at 0) if the | Required (line number)
+         |           | result of the previous operation was equal to 0 (Jump if Zero)|
 OUT      | 1110 xxxx | Write the value in the A register to the CLI (Output)         | Not Required (set to 0)
 HLT      | 1111 xxxx | Halt the system (Halt)                                        | Not Required (set to 0)
 ---------|-----------|---------------------------------------------------------------|----------------------------

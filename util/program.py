@@ -32,14 +32,18 @@ class Program(object):
 
                 logger.debug('Compiling line #' + str(index) + ' : ' + line + ' ...')
 
-                try:
-                    self._check_instruction(line)
-                except exception.CompilerError as e:
-                    raise exception.CompilerError(e.args[0], index)
-
                 if addr is -1:
-                    addr = memory_addr
-                    memory_addr += 1
+                    try:
+                        self._check_instruction(line)
+                    except exception.CompilerError as e:
+                        raise exception.CompilerError(e.args[0], index)
+
+                    if addr is -1:
+                        addr = memory_addr
+                        memory_addr += 1
+                else:
+                    # TODO: Check for valid memory pointer
+                    pass
 
                 self._bytecode.append(_fix_bin(bin(addr)) + line)
 

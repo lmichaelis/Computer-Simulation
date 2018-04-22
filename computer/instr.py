@@ -34,10 +34,18 @@ class _ADDInstruction(_Instruction):
         computer._b = computer._ram.get_content(int(self._args, 2))
 
         x = int(computer._a, 2) + int(computer._b, 2)
-        x = util._fix_bin(bin(x))
+        x = util._fix_bin(bin(x), binlen=8)
 
         if len(x) > 8:
             x = x[len(x) - 8:]
+            computer._carry_flag = 1
+        else:
+            computer._carry_flag = 0
+
+        if x == '00000000' or x == '0000':
+            computer._zero_flag = 1
+        else:
+            computer._zero_flag = 0
 
         computer._a = x
         computer._pc += 1
@@ -51,10 +59,30 @@ class _SUBInstruction(_Instruction):
         computer._b = computer._ram.get_content(int(self._args, 2))
 
         x = int(computer._a, 2) - int(computer._b, 2)
-        x = util._fix_bin(bin(x))
+        x = util._fix_bin(bin(x), binlen=8)
+
+        if '-1' in x:
+            x = '11111111'  # Set to 255
+            computer._carry_flag = 1  # Set carry flag
+            computer._zero_flag = 0   # Prevent zero flag set bug
+
+            # We are sure and we don't want to mess up the flags
+            # so we continue normally and return
+            computer._a = x
+            computer._pc += 1
+
+            return
 
         if len(x) > 8:
             x = x[len(x) - 8:]
+            computer._carry_flag = 1
+        else:
+            computer._carry_flag = 0
+
+        if x == '00000000':
+            computer._zero_flag = 1
+        else:
+            computer._zero_flag = 0
 
         computer._a = x
         computer._pc += 1
@@ -71,6 +99,7 @@ class _STAInstruction(_Instruction):
     def get_basename(self) -> str:
         return 'STA'
 
+
 class _LDIInstruction(_Instruction):
     def process(self, computer):
         computer._a = self._args
@@ -79,12 +108,14 @@ class _LDIInstruction(_Instruction):
     def get_basename(self) -> str:
         return 'LDI'
 
+
 class _JMPInstruction(_Instruction):
     def process(self, computer):
         computer._pc = int(self._args, 2)
 
     def get_basename(self) -> str:
-        return 'NOP'
+        return 'JMP'
+
 
 class _OUTInstruction(_Instruction):
     def process(self, computer):
@@ -93,6 +124,28 @@ class _OUTInstruction(_Instruction):
 
     def get_basename(self) -> str:
         return 'OUT'
+
+
+class _JZInstruction(_Instruction):
+    def process(self, computer):
+        if computer._zero_flag == 1:
+            computer._pc = int(self._args, 2)
+        else:
+            computer._pc += 1
+
+    def get_basename(self):
+        return 'JPZ'
+
+
+class _JCInstruction(_Instruction):
+    def process(self, computer):
+        if computer._carry_flag == 1:
+            computer._pc = int(self._args, 2)
+        else:
+            computer._pc += 1
+
+    def get_basename(self):
+        return 'JPC'
 
 
 class _HLTInstruction(_Instruction):
@@ -112,6 +165,10 @@ _INSTRUCTION_SET = {
     '0100': _STAInstruction,
     '0101': _LDIInstruction,
     '0110': _JMPInstruction,
+
+    '0111': _JCInstruction,
+    '1000': _JZInstruction,
+
     '1110': _OUTInstruction,
     '1111': _HLTInstruction
 }
