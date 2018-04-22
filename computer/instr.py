@@ -42,7 +42,7 @@ class _ADDInstruction(_Instruction):
         else:
             computer._carry_flag = 0
 
-        if x == '0000000' or x == '0000':
+        if x == '00000000' or x == '0000':
             computer._zero_flag = 1
         else:
             computer._zero_flag = 0
@@ -64,6 +64,7 @@ class _SUBInstruction(_Instruction):
         if '-1' in x:
             x = '11111111'  # Set to 255
             computer._carry_flag = 1  # Set carry flag
+            computer._zero_flag = 0   # Prevent zero flag set bug
 
             # We are sure and we don't want to mess up the flags
             # so we continue normally and return
@@ -78,7 +79,7 @@ class _SUBInstruction(_Instruction):
         else:
             computer._carry_flag = 0
 
-        if x == '0000000':
+        if x == '00000000':
             computer._zero_flag = 1
         else:
             computer._zero_flag = 0
@@ -113,7 +114,7 @@ class _JMPInstruction(_Instruction):
         computer._pc = int(self._args, 2)
 
     def get_basename(self) -> str:
-        return 'NOP'
+        return 'JMP'
 
 
 class _OUTInstruction(_Instruction):
