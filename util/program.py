@@ -32,13 +32,13 @@ class Program(object):
 
                 logger.debug('Compiling line #' + str(index) + ' : ' + line + ' ...')
 
-                if addr is -1:
+                if addr == -1:
                     try:
                         self._check_instruction(line)
                     except exception.CompilerError as e:
                         raise exception.CompilerError(e.args[0], index)
 
-                    if addr is -1:
+                    if addr == -1:
                         addr = memory_addr
                         memory_addr += 1
                 else:
@@ -52,7 +52,7 @@ class Program(object):
     @staticmethod
     def _check_instruction(line: str) -> bool:
         try:
-            if len(line) is not 8:
+            if len(line) != 8:
                 raise IndexError('LineError')
 
             if line[:4] not in _INSTRUCTION_SET:

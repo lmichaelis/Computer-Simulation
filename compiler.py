@@ -51,7 +51,7 @@ def compile(code) -> str:
                 while len(line) < 8:
                     line = '0' + line
 
-            if addr is not '':
+            if addr != '':
                 line = _fix_bin(bin(int(addr))) + ': ' + line
 
             compiled += line + '\n'
