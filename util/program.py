@@ -1,9 +1,13 @@
-import util.logger as logger
+import logging as logger
+import os
 
 from computer.instr import _INSTRUCTION_SET
 from util import exception
 from util.util import _fix_bin
 
+# Set up logging
+LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper() # Defaults to INFO
+logger.basicConfig(level=LOGLEVEL)
 
 class Program(object):
     def __init__(self, code: str):
