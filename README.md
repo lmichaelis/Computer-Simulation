@@ -12,7 +12,7 @@ it is free and open source software.
 
 For this program to run you will need
 Python 3.6 which you can download for all
-platforms from [https://www.python.org/](python.org).
+platforms from [python.org](https://www.python.org/).
 
 To start open a terminal or command-line window
 in the folder of the program. Type in:
