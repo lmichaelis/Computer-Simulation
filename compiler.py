@@ -1,8 +1,11 @@
+import logging
+import os
+
 from argparse import ArgumentParser
 
 from util.exception import CompilerError
 from util.util import _fix_bin
-import util.logger as logger
+
 
 _INSTRUCTION_SET = {
     'NOP' or 'nop': '0000',
@@ -23,7 +26,7 @@ def compile(code) -> str:
     lines = code.splitlines()
     compiled = ''
 
-    logger.debug('Compiling ...')
+    logging.debug('Compiling ...')
 
     for line in lines:
         if _do_compile(line):
@@ -51,12 +54,12 @@ def compile(code) -> str:
                 while len(line) < 8:
                     line = '0' + line
 
-            if addr is not '':
+            if addr != '':
                 line = _fix_bin(bin(int(addr))) + ': ' + line
 
             compiled += line + '\n'
 
-    logger.debug('Done.')
+    logging.debug('Done.')
     return compiled
 
 
@@ -87,8 +90,16 @@ if __name__ == '__main__':
     parser = ArgumentParser(description='Assembly Compiler for the Ben Eater Computer Simulation')
     parser.add_argument('file', metavar='Path', type=str, help='The file to compile')
     parser.add_argument('-o', dest='output', default='', metavar='File', type=str, help='The output file. (Default: [file].bin)')
+    parser.add_argument(
+        '-d', '--debug',
+        help="Print lots of debugging statements",
+        action="store_const", dest="loglevel", const=logging.DEBUG,
+        default=logging.INFO,
+    )
     args = parser.parse_args()
-
+    logging.getLogger().setLevel(args.loglevel)
+    print('Loglevel: {}'.format(logging.getLevelName(args.loglevel)))
+    
     with open(args.file, 'r') as f:
         c = compile(f.read())
 

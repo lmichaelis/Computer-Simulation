@@ -1,6 +1,8 @@
 from argparse import ArgumentParser
 
-import util.logger as logger
+import logging
+import os
+
 from computer.computer import Computer
 from util.program import Program
 
@@ -33,13 +35,22 @@ def main():
                         help='Set the clock speed of the CPU')
     parser.add_argument('--ram-size', dest='ram_size', default=16, metavar='Size', type=int,
                         help='The size of the RAM \'slots\' (writable memory adresses)')
+    parser.add_argument(
+        '-d', '--debug',
+        help="Print lots of debugging statements",
+        action="store_const", dest="loglevel", const=logging.DEBUG,
+        default=logging.INFO,
+    )
     args = parser.parse_args()
+    print('Loglevel: {}'.format(logging.getLevelName(args.loglevel)))
+
+    logging.getLogger().setLevel(args.loglevel)
 
     with open(args.file, 'r') as f:
         prg = f.read()
 
-    logger.debug('\n--------------- Loading Program ---------------\n')
-    logger.debug('\n'.join(prg.splitlines()))
+    logging.debug('\n--------------- Loading Program ---------------\n')
+    logging.debug('\n'.join(prg.splitlines()))
 
     prg = Program(prg)
 

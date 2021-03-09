@@ -1,9 +1,13 @@
-import util.logger as logger
+import logging as logger
+import os
 
 from computer.instr import _INSTRUCTION_SET
 from util import exception
 from util.util import _fix_bin
 
+# Set up logging
+LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper() # Defaults to INFO
+logger.basicConfig(level=LOGLEVEL)
 
 class Program(object):
     def __init__(self, code: str):
@@ -32,13 +36,13 @@ class Program(object):
 
                 logger.debug('Compiling line #' + str(index) + ' : ' + line + ' ...')
 
-                if addr is -1:
+                if addr == -1:
                     try:
                         self._check_instruction(line)
                     except exception.CompilerError as e:
                         raise exception.CompilerError(e.args[0], index)
 
-                    if addr is -1:
+                    if addr == -1:
                         addr = memory_addr
                         memory_addr += 1
                 else:
@@ -52,7 +56,7 @@ class Program(object):
     @staticmethod
     def _check_instruction(line: str) -> bool:
         try:
-            if len(line) is not 8:
+            if len(line) != 8:
                 raise IndexError('LineError')
 
             if line[:4] not in _INSTRUCTION_SET:

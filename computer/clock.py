@@ -1,7 +1,5 @@
+import logging
 from time import sleep
-
-from util import logger
-
 
 class Clock(object):
     def __init__(self, speed: int, computer):
@@ -11,13 +9,17 @@ class Clock(object):
 
     def _run(self):
         while self._running:
-            self._computer.tick()
-            sleep(1 / self._speed)
+            try:
+                self._computer.tick()
+                sleep(1 / self._speed)
+            except KeyboardInterrupt:
+                logging.debug('\n--------------- Manual Interrupt Reveived ---------------\n')
+                break
 
-        logger.debug('\n--------------- Execution Finished ---------------\n')
+        logging.debug('\n--------------- Execution Finished ---------------\n')
 
     def start(self):
-        logger.debug('\n--------------- Executing Program ---------------\n')
+        logging.debug('\n--------------- Executing Program ---------------\n')
 
         self._running = True
         self._run()
