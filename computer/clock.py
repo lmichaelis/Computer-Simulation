@@ -9,8 +9,12 @@ class Clock(object):
 
     def _run(self):
         while self._running:
-            self._computer.tick()
-            sleep(1 / self._speed)
+            try:
+                self._computer.tick()
+                sleep(1 / self._speed)
+            except KeyboardInterrupt:
+                logging.debug('\n--------------- Manual Interrupt Reveived ---------------\n')
+                break
 
         logging.debug('\n--------------- Execution Finished ---------------\n')
 

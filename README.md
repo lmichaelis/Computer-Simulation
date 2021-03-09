@@ -53,6 +53,10 @@ You can run the program by typing:
     python[3] cpu.py [youfilename].bin
 ```
 
+Unless your program has a specific HLT instruction, the program will run forever.
+
+To exit the program gracefully, send a KeyboardInterrupt (CTRL+C).
+
 For more information about the programs
 type:
     python[3] [program].py -h
