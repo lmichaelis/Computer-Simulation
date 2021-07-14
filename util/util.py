@@ -1,7 +1,13 @@
-def _fix_bin(b: str, binlen: int = 4) -> str:
-    b = b.replace('0b', '')
+def _fix_bin(b: int, binlen: int = 4) -> str:
+    
+    if b <= -1:
+        binstr = bin(b & 0b11111111)
+    else:
+        binstr = bin(b)
+    
+    binstr = binstr.replace('0b', '')
 
-    while len(b) < binlen:
-        b = '0' + b
+    while len(binstr) < binlen:
+        binstr = '0' + binstr
 
-    return b
+    return binstr

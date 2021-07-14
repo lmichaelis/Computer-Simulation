@@ -17,7 +17,7 @@ class RAM(object):
             addr = prg.get_memory_addr(i)
             instr = prg.get_instruction(i)
 
-            logging.debug('Loading instruction to memory address ' + _fix_bin(bin(addr)) + ' : ' + instr + '  ...')
+            logging.debug('Loading instruction to memory address ' + _fix_bin(addr) + ' : ' + instr + '  ...')
 
             self._content[addr] = instr
 
