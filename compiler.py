@@ -47,15 +47,15 @@ def compile(code) -> str:
                 line = line[line.index(':') + 1:]
 
             if line[:3] in _INSTRUCTION_SET:
-                line = _INSTRUCTION_SET[line[:3]] + _fix_bin(bin(int(line[3:])))
+                line = _INSTRUCTION_SET[line[:3]] + _fix_bin(int(line[3:]))
             else:
-                line = _fix_bin(bin(int(line)))
+                line = _fix_bin(int(line))
 
                 while len(line) < 8:
                     line = '0' + line
 
             if addr != '':
-                line = _fix_bin(bin(int(addr))) + ': ' + line
+                line = _fix_bin(int(addr)) + ': ' + line
 
             compiled += line + '\n'
 

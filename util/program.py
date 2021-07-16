@@ -49,7 +49,7 @@ class Program(object):
                     # TODO: Check for valid memory pointer
                     pass
 
-                self._bytecode.append(_fix_bin(bin(addr)) + line)
+                self._bytecode.append(_fix_bin(addr) + line)
 
         logger.debug('\n--------------- Compiled Code ---------------\n\n' + '\n'.join(self._bytecode))
 
