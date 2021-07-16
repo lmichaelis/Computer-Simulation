@@ -61,7 +61,7 @@ class _SUBInstruction(_Instruction):
         x = int(computer._a, 2) - int(computer._b, 2)
         x = util._fix_bin(x, binlen=8)
 
-        if (int(computer._a, 2) + (256 - int(computer._b, 2))) == 255:
+        if int(computer._b, 2) > int(computer._a, 2):
             computer._carry_flag = 0
         else:
             computer._carry_flag = 1
